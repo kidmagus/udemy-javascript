@@ -121,13 +121,15 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 
 const initialCoords = section1.getBoundingClientRect();
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > initialCoords.top) {
-    nav.classList.add('sticky');
-  } else {
-    nav.classList.remove('sticky');
-  }
-});
+// window.addEventListener('scroll', () => {
+//   if (window.scrollY > initialCoords.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
+
+//Header Sticky Observer
 
 const header = document.querySelector('.header');
 const navHeight = nav.getBoundingClientRect().height;
