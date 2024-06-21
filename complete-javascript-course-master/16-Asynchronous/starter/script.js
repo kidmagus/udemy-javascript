@@ -174,11 +174,11 @@ btn.addEventListener('click', () => {
 //     console.log('I waited 1 second');
 //   });
 
-// const getPosition = function () {
-//   return new Promise(function (resolve, reject) {
-//     navigator.geolocation.getCurrentPosition(resolve, reject);
-//   });
-// };
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
 // const whereAmI = function () {
 //   getPosition()
 //     .then(pos => {
@@ -207,3 +207,34 @@ btn.addEventListener('click', () => {
 // };
 
 // btn.addEventListener('click', whereAmI);
+
+///////////////////////////////////////////
+
+const whereAmI = async function () {
+  //geolocation
+  try {
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    //reverse geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`);
+    const dataGeo = await resGeo.json();
+    console.log(dataGeo);
+
+    //Country data
+    const res = await fetch(
+      `https://restcountries.com/v2/name/${dataGeo.country}`
+    );
+
+    const data = await res.json();
+    console.log(data);
+    renderCountry(data[0]);
+
+    return `You are in ${dataGeo.city} , ${dataGeo.country}`;
+  } catch (err) {
+    console.error(err);
+    renderError(`${err.message}`);
+  }
+};
+
+whereAmI().then(city => console.log(city));
